@@ -9,14 +9,15 @@ const multer = require("multer");
 const { PassThrough } = require("stream");
 const File = require("../models/File");
 const { NodeHttpHandler } = require("@aws-sdk/node-http-handler");
+const { AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY } = require("../config/AWS");
 require("dotenv").config();
 
 // Configure AWS SDK
 const s3 = new S3({
-  region: process.env.AWS_REGION,
+  region: process.env.REGION,
   credentials: {
-    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+    accessKeyId: `${AWS_ACCESS_KEY_ID}`,
+    secretAccessKey:`${AWS_SECRET_ACCESS_KEY}`,
   },
   requestHandler: new NodeHttpHandler({
     connectionTimeout: 300000, // Connection timeout (5 minutes)
