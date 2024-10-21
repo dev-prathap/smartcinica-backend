@@ -9,13 +9,17 @@ require("dotenv").config();
 
 const app = express();
 
-// Middleware
-app.use(
-  cors({
-    origin: '*', // Allow all origins
-    credentials: true, // Set this to true to allow credentials (cookies, auth headers, etc.)
-  })
-);
+// CORS configuration
+const corsOptions = {
+  origin: 'https://portal.smartcnica.org', // Allow requests from this origin
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Allowed methods
+  allowedHeaders: ['Content-Type', 'Authorization'], // Allowed headers
+  credentials: true, // Allow credentials (cookies, authorization headers, etc.)
+};
+
+// Use CORS middleware
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions)); 
 
 app.use(express.urlencoded({ extended: false })); // For parsing application/x-www-form-urlencoded
 app.use(express.json());
