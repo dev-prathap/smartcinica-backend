@@ -10,18 +10,9 @@ require("dotenv").config();
 const app = express();
 
 // Middleware
-
-// Dynamic CORS configuration - allows localhost:3000 and portal.smartcnica.org
 app.use(
   cors({
-    origin: (origin, callback) => {
-      // Allow requests with no origin (like mobile apps, Postman, etc.)
-      if (!origin || origin === 'http://localhost:3000' || origin === 'https://portal.smartcnica.org') {
-        callback(null, true);
-      } else {
-        callback(new Error('Not allowed by CORS'));
-      }
-    },
+    origin: '*', // Allow all origins
     credentials: true, // Set this to true to allow credentials (cookies, auth headers, etc.)
   })
 );
