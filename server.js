@@ -4,6 +4,7 @@ const cors = require("cors");
 const authRoutes = require("./routes/authRoutes");
 const fileRoutes = require("./routes/fileRoutes");
 const folderRoutes = require("./routes/folderRoutes");
+const uploadRoutes = require("./routes/uploadRoutes");
 require("dotenv").config();
 
 const app = express();
@@ -15,7 +16,7 @@ app.use(
   cors({
     origin: (origin, callback) => {
       // Allow requests with no origin (like mobile apps, Postman, etc.) or any origin
-      callback(null, true); 
+      callback(null, true);
     },
     credentials: true, // Set this to true to allow credentials (cookies, auth headers, etc.)
   })
@@ -27,7 +28,10 @@ app.use("/uploads", express.static("uploads"));
 
 // Connect to MongoDB
 mongoose
-  .connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .connect(process.env.MONGODB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
   .then(() => console.log("MongoDB connected"))
   .catch((err) => console.log("MongoDB connection error:", err));
 
@@ -35,6 +39,7 @@ mongoose
 app.use("/api/auth", authRoutes);
 app.use("/api/files", fileRoutes);
 app.use("/api/folders", folderRoutes);
+app.use("/api/upload", uploadRoutes);
 
 // Handle unhandled routes
 app.use((req, res, next) => {
