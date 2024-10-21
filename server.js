@@ -11,12 +11,16 @@ const app = express();
 
 // Middleware
 
-// Dynamic CORS configuration - allows all origins but supports credentials
+// Dynamic CORS configuration - allows localhost:3000 and portal.smartcnica.org
 app.use(
   cors({
     origin: (origin, callback) => {
-      // Allow requests with no origin (like mobile apps, Postman, etc.) or any origin
-      callback(null, true);
+      // Allow requests with no origin (like mobile apps, Postman, etc.)
+      if (!origin || origin === 'http://localhost:3000' || origin === 'https://portal.smartcnica.org') {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
     },
     credentials: true, // Set this to true to allow credentials (cookies, auth headers, etc.)
   })
